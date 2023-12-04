@@ -58,6 +58,6 @@ def part2():
 from time import monotonic_ns
 
 start = monotonic_ns()
-part2()
+print(part2())
 end = monotonic_ns() - start
 print(end)
