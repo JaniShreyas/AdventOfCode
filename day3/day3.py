@@ -18,7 +18,7 @@
 # but let's see
 
 import re
-
+from time import monotonic_ns
 
 def surroundingElements(i, j, n):
     # i is row num, j is column num
@@ -80,7 +80,7 @@ def part1():
                                         sum += number
                                         visited.append((row, ind))
 
-    print(sum)
+    # print(sum)
 
 def part2():
 
@@ -129,6 +129,10 @@ def part2():
                                         visited.append((row, ind))
                     if count == 2:
                         sum += prod
-    print(sum)
+    # print(sum)
 
+start = monotonic_ns()
+part1()
 part2()
+end = monotonic_ns() - start
+print(end)
