@@ -101,4 +101,89 @@ strengthPart2 = ['J']
 strengthPart2.extend([str(num) for num in range(2, 10)])
 strengthPart2.extend(['T', 'Q', 'K', 'A'])
 
-print(strengthPart2)
+def lessThanP2(h1, h2):
+    flag = False
+    for n in range(len(h1)):
+        st1 = strengthPart2.index(h1[n])
+        st2 = strengthPart2.index(h2[n])
+        if st1 == st2:
+            continue
+        elif st1 < st2:
+            return True
+        elif st1 > st2:
+            return False
+    
+    return flag
+
+typeDict = {}
+
+for hand in hands:
+    countDict = {}
+    for card in hand:
+        if card in countDict:
+            countDict[card] += 1
+        else:
+            countDict[card] = 1
+    
+    sortedCountDict = dict(sorted(countDict.items(), key=lambda x:x[1], reverse=True))
+    sortedKeys = list(sortedCountDict.keys())
+    # if the first key is J, then add J's value to the second key's value and remove J
+    # else set [0]'s value to itself plus J's value and remove J
+    if sortedKeys[0] == 'J':
+        if len(sortedKeys) > 1:
+            sortedCountDict[sortedKeys[1]] += sortedCountDict['J']
+            sortedCountDict.pop('J')
+    else:
+        if 'J' in sortedKeys:
+            sortedCountDict[sortedKeys[0]] += sortedCountDict['J']
+            sortedCountDict.pop('J')
+    keys = list(sortedCountDict.keys())
+    values = list(sortedCountDict.values())
+
+    if values[0] == 5:
+        typeDict[hand] = 6
+    elif values[0] == 4:
+        typeDict[hand] = 5
+    elif (values[0] == 3) and (len(keys) == 2):
+        typeDict[hand] = 4
+    elif (values[0] == 3) and (len(keys) == 3):
+        typeDict[hand] = 3
+    elif (values[0] == 2) and (len(keys) == 3):
+        typeDict[hand] = 2
+    elif (values[0] == 2) and (len(keys) == 4):
+        typeDict[hand] = 1
+    elif len(keys) == 5:
+        typeDict[hand] = 0
+
+high = [key for key in typeDict if typeDict[key] == 0]
+one = [key for key in typeDict if typeDict[key] == 1]
+two = [key for key in typeDict if typeDict[key] == 2]
+three = [key for key in typeDict if typeDict[key] == 3]
+full = [key for key in typeDict if typeDict[key] == 4]
+four = [key for key in typeDict if typeDict[key] == 5]
+five = [key for key in typeDict if typeDict[key] == 6]
+
+handTypeList = [high, one, two, three, full, four, five]
+for i in range(len(handTypeList)):
+    for j in range(len(handTypeList[i])):
+        minInd = j
+        for k in range(j+1, len(handTypeList[i])):
+            if lessThanP2(handTypeList[i][k], handTypeList[i][minInd]):
+                minInd = k
+        handTypeList[i][j], handTypeList[i][minInd] = handTypeList[i][minInd], handTypeList[i][j]
+
+handTypeList = [ele for ele in handTypeList if ele != []]
+
+print(handTypeList)
+
+output = 0
+rank=1
+for i in range(len(handTypeList)):
+    for j in range(len(handTypeList[i])):
+        h = handTypeList[i][j]
+        ind = hands.index(h)
+        bid = bids[ind]
+        output += bid * rank
+        rank+=1
+
+print(output)
