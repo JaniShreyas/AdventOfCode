@@ -32,6 +32,10 @@ def rangeState(seedR, mapR):
         return 4
     raise Exception("something wrong with calculation of range states")
 
+from time import monotonic_ns
+
+start = monotonic_ns()
+
 for i in range(len(mapDictList)):
     mapped = []
     for seedRange in seedRanges:
@@ -56,19 +60,23 @@ for i in range(len(mapDictList)):
                     remaining.append((ran[1], seed[1]))
                     
                     mapped.append((ran[0] + addValue, ran[1] + addValue))
+                    break
 
                 elif state == 2:
                     mapped.append((seed[0] + addValue, seed[1] + addValue))
+                    break
                 
                 elif state == 3:
                     remaining.append((seed[0], ran[0]))
 
                     mapped.append((ran[0] + addValue, seed[1] + addValue))
+                    break
                 
                 elif state == 4:
                     mapped.append((seed[0] + addValue, ran[1] + addValue))
 
                     remaining.append((ran[1], seed[1]))
+                    break
             
             if not isMapped:
                 mapped.append(seed)
@@ -76,3 +84,4 @@ for i in range(len(mapDictList)):
     seedRanges = list(mapped)
 
 print(min(mapped)[0])
+print(monotonic_ns() - start)
