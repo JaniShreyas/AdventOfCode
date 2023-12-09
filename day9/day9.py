@@ -18,21 +18,11 @@ def nextVal(sequence, isPart1):
         else sequence[0] - nextVal(diffSeq, isPart1)
     )
 
-
-def part1():
+def sumNextVal(isPart1):
     nextVals = []
     for seq in input:
-        # True is for signifying it is part1
-        nextVals.append(nextVal(seq, True))
-
+        nextVals.append(nextVal(seq, isPart1))
     print(sum(nextVals))
 
-def part2():
-    nextVals = []
-    for seq in input:
-        # False is for signifying it is part2
-        nextVals.append(nextVal(seq, False))
-    print(nextVals)
-    print(sum(nextVals))
-
-part2()
+# True for part1, False for part2
+sumNextVal(True)
