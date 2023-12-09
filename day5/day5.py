@@ -1,3 +1,15 @@
+
+
+
+# This is a terrible implementation but I didn't want to change my part 1 (not in the mood)
+# So, my solution for part 2 is in another file in this same directory named 'day5p2.py'
+# That's a much better solution albeit only for part 2 (the only one that was difficult really)
+
+
+
+
+
+
 # First let's separate all the different things
 # 1. Seeds, 2. seed-to-soil, 3. seed-to-fertilizer, 4. fertilizier-to-water, 5. water-to-light, 6. light-to-temperature,
 # 7. temperature-to-humidity, 8. humidity-to-location

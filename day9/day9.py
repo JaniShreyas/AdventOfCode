@@ -25,4 +25,4 @@ def sumNextVal(isPart1):
     print(sum(nextVals))
 
 # True for part1, False for part2
-sumNextVal(True)
+sumNextVal(False)
