@@ -151,12 +151,6 @@ def countAtRow(row, loop, pipeAt):
         
 
 def part2():
-    # apply raycast at 45 deg
-    # For every point in here that's not part of the loop,
-    # We need to apply a raycast
-    # if the no. of hits is even, point is outside polygon
-    # if it is odd, point is inside polygon
-    # hitting a vertex (L, J, 7, F) counts as two hits
     path = getPathWithLoop()
     path = path[:-1]
     prevToS = path[-1]
@@ -165,6 +159,7 @@ def part2():
 
     #Hardcoding S's pipe point
     #In this case, its a '|'
+    
     
     path[0] = ('|', path[0][1], path[0][2])
     
