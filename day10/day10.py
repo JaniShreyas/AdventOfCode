@@ -7,6 +7,13 @@ for i in range(len(input)):
         if input[i][j] == 'S':
             sLoc = (i, j)
 
+def getAllPoints():
+    points = []
+    for i in range(len(input)):
+        for j in range(len(input[i])):
+            points.append((input[i][j], i, j))
+    return points
+
 def getInitialIndices():
     i, j = sLoc
     n = len(input)
@@ -41,25 +48,45 @@ def getValidIndices(current, last):
     if curChar == '.':
         return None
     elif curChar == '|':
-        valid = (i+1, j) if (iPrev, jPrev) == (i-1, j) else (i-1, j)
+        if (iPrev, jPrev) == (i-1, j):
+            valid = (i+1, j)  
+        elif (iPrev, jPrev) == (i+1, j):
+            valid = (i-1, j)
 
     elif curChar == '-':
-        valid = (i, j+1) if (iPrev, jPrev) == (i, j-1) else (i, j-1)
+        if (iPrev, jPrev) == (i, j-1):
+            valid = (i, j+1)  
+        elif (iPrev, jPrev) == (i, j+1):
+            valid = (i, j-1)
     
     elif curChar == 'L':
-        valid = (i, j+1) if (iPrev, jPrev) == (i-1, j) else (i-1, j)
+        if (iPrev, jPrev) == (i-1, j):
+            valid = (i, j+1) 
+        elif (iPrev, jPrev) == (i, j+1):
+            valid = (i-1, j)
+
     
     elif curChar == 'J':
-        valid = (i-1, j) if (iPrev, jPrev) == (i, j-1) else (i, j-1)
+        if (iPrev, jPrev) == (i, j-1):
+            valid = (i-1, j)
+        elif (iPrev, jPrev) == (i-1, j):
+            valid = (i, j-1) 
     
     elif curChar == '7':
-        valid = (i+1, j) if (iPrev, jPrev) == (i, j-1) else (i, j-1)
+        if (iPrev, jPrev) == (i, j-1):
+            valid = (i+1, j) 
+        elif (iPrev, jPrev) == (i+1, j):
+            valid = (i, j-1)
     
     elif curChar == 'F':
-        valid = (i, j+1) if (iPrev, jPrev) == (i+1, j) else (i+1, j)
+        if (iPrev, jPrev) == (i+1, j):
+            valid = (i, j+1) 
+        elif (iPrev, jPrev) == (i, j+1):
+            valid = (i+1, j)
+
     
-    if valid == None:
-        raise Exception("Something wrong with Valid Index Calculation")
+    # if valid == None:
+    #     raise Exception("Something wrong with Valid Index Calculation")
     
     return valid
 
@@ -79,6 +106,8 @@ def getPathWithLoop():
             continue
         paths[ind].append((char, inI, inJ))
         nextIndex = getValidIndices(paths[ind][-1], paths[ind][-2])
+        if nextIndex == None:
+            continue
         nextIndices[ind] = nextIndex
     
     # print(paths)
@@ -105,6 +134,51 @@ def getPathWithLoop():
 
 def part1():
     path = getPathWithLoop()
+    print(path[1], path[0], path[-2])
     print(len(path)//2)
 
+def countAtRow(row, loop, pipeAt):
+    tp, bp, c = 0, 0, 0
+    for j in range(len(input[0])):
+        if (row, j) in loop and pipeAt[(row, j)] in '|LJ':
+            tp += 1
+        if (row, j) in loop and pipeAt[(row, j)] in '|7F':
+            bp += 1
+        if (row, j) not in loop and tp % 2 and bp % 2:
+            c += 1
+    return c
+
+        
+
+def part2():
+    # apply raycast at 45 deg
+    # For every point in here that's not part of the loop,
+    # We need to apply a raycast
+    # if the no. of hits is even, point is outside polygon
+    # if it is odd, point is inside polygon
+    # hitting a vertex (L, J, 7, F) counts as two hits
+    path = getPathWithLoop()
+    path = path[:-1]
+    prevToS = path[-1]
+    nextToS = path[1]
+
+
+    #Hardcoding S's pipe point
+    #In this case, its a '|'
+    
+    path[0] = ('|', path[0][1], path[0][2])
+    
+    n = len(path)
+    loop = []
+    pipeAtInd = {}
+    
+    for node in path:
+        char, i, j = node
+        loop.append((i, j))
+        pipeAtInd[(i, j)] = char
+    
+    total = sum([countAtRow(row, loop, pipeAtInd) for row in range(len(input))])
+    print(total)    
+
 part1()
+part2()
