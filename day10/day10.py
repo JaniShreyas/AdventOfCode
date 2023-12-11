@@ -148,8 +148,6 @@ def countAtRow(row, loop, pipeAt):
             c += 1
     return c
 
-        
-
 def part2():
     path = getPathWithLoop()
     path = path[:-1]
@@ -160,7 +158,7 @@ def part2():
     #Hardcoding S's pipe point
     #In this case, its a '|'
     
-    
+
     path[0] = ('|', path[0][1], path[0][2])
     
     n = len(path)
