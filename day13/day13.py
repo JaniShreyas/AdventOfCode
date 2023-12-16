@@ -91,7 +91,6 @@ def part2():
                     # print(i-j, i+j+1)
                     if not np.array_equal(arr[:, i-j], arr[:, i+j+1]):
                         diffCount = 0
-                        print()
                         for k in range(len(arr[:, i-j])):
                             if arr[:, i-j][k] != arr[:, i+j+1][k]:
                                 diffCount += 1
@@ -105,23 +104,22 @@ def part2():
         
         for i in range(len(arr)-1):
             smudgeCount = 0
-            col1 = arr[i, :]
-            col2 = arr[i+1, :]
+            row1 = arr[i, :]
+            row2 = arr[i+1, :]
             iniDiffCount = 0
-            for k in range(len(col1)):
-                if col1[k] != col2[k]:
+            for k in range(len(row1)):
+                if row1[k] != row2[k]:
                     iniDiffCount += 1
             if iniDiffCount <= 1:
                 smudgeCount += iniDiffCount
                 # print((i, i+1))
-                leftCols = i+1
-                rightCols = len(arr)-(i+1)
+                upRows = i+1
+                downRows = len(arr)-(i+1)
                 isNotReflection = False
-                for j in range(1, min(leftCols, rightCols)):
+                for j in range(1, min(upRows, downRows)):
                     # print(i-j, i+j+1)
                     if not np.array_equal(arr[i-j, :], arr[i+j+1, :]):
                         diffCount = 0
-                        print()
                         for k in range(len(arr[i-j, :])):
                             if arr[i-j, :][k] != arr[i+j+1, :][k]:
                                 diffCount += 1
@@ -131,7 +129,7 @@ def part2():
                         else:
                             smudgeCount += 1
                 if not isNotReflection and smudgeCount != 0:
-                    horizontal += leftCols
+                    horizontal += upRows
                     
     total = vertical + 100*horizontal
     print(total)
