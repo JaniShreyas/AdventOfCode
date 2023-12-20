@@ -67,11 +67,9 @@ def part2():
                     cubeInd = j
                 elif col[j] == 'O':
                     if cubeInd != 1000:
-                        sumList[cubeInd+1] += 1
                         newPos.append((cubeInd+1, i))
                         cubeInd += 1
                     else:
-                        sumList[0] += 1
                         newPos.append((0, i))
                         cubeInd = 0
         for i in range(len(arr)):
@@ -177,7 +175,10 @@ def part2():
         
         cycleDict[ind] = s
         
-        print(ind, s)
+        # print(ind, s)
+
+        if ind == 4:
+            print(arr)
 
         flag = False
         for i in range(len(listOfArrays)):
@@ -196,5 +197,81 @@ def part2():
     cycleWhichMatches1b = start + ((1000000000 - start)%(end+1 - start))-1
     print(cycleDict[cycleWhichMatches1b])
 
+def betterPart2():
+    arr = np.array(data)
 
-part2()
+    sums = []
+    listOfArrays = [np.array(arr)]
+    start, end = 0,0
+    for ind in range(500):
+        # North tilt
+        for j in range(len(arr[0])):
+            col = arr[:, j]
+            for i in range(len(col)-1, -1, -1):
+                for k in range(len(col) - i, 0, -1):
+                    if k == len(arr):
+                        break
+                    if arr[k,j] == 'O':
+                        if arr[k-1, j] == '.':
+                            arr[k,j], arr[k-1, j] = arr[k-1,j], arr[k,j]
+        # West tilt
+                            
+        for i in range(len(arr)):
+            row = arr[i, :]
+            for j in range(len(row)-1, -1, -1):
+                for k in range(len(row) - j, 0, -1):
+                    if k == len(arr):
+                        break
+                    if arr[i, k] == 'O':
+                        if arr[i, k-1] == '.':
+                            arr[i,k], arr[i, k-1] = arr[i, k-1], arr[i,k]
+
+        # South tilt
+        for j in range(len(arr[0])):
+            col = arr[:, j]
+            for i in range(len(col)):
+                for k in range(len(col) - i -1):
+                    if k == len(arr):
+                        break
+                    if arr[k,j] == 'O':
+                        if arr[k+1, j] == '.':
+                            arr[k,j], arr[k+1, j] = arr[k+1,j], arr[k,j]
+
+        # East tilt
+        for i in range(len(arr)):
+            row = arr[i, :]
+            for j in range(len(row)):
+                for k in range(len(row) - j - 1):
+                    if k == len(arr):
+                        break
+                    if arr[i, k] == 'O':
+                        if arr[i, k+1] == '.':
+                            arr[i,k], arr[i, k+1] = arr[i, k+1], arr[i,k]
+        
+        s = 0
+        for i in range(len(arr)):
+            for j in range(len(arr[0])):
+                if arr[i,j] == 'O':
+                    s += len(arr)-i
+        
+        sums.append(s)
+
+        print(ind, s)
+        flag = False
+        for i in range(len(listOfArrays)):
+            array = listOfArrays[i]
+            if np.array_equal(array, arr):
+                print("Found match at:", i)
+                start = i
+                print("Found match for:", ind)
+                end = ind
+                flag =True
+                break
+        if flag:
+            break
+        listOfArrays.append(np.array(arr))
+    
+    cycleWhichMatches1b = start + ((1000000000 - start)%(end+1 - start))-1
+    print(sums[cycleWhichMatches1b])
+
+betterPart2()
