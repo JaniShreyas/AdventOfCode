@@ -256,7 +256,6 @@ def betterPart2():
         
         sums.append(s)
 
-        print(ind, s)
         flag = False
         for i in range(len(listOfArrays)):
             array = listOfArrays[i]
@@ -274,4 +273,7 @@ def betterPart2():
     cycleWhichMatches1b = start + ((1000000000 - start)%(end+1 - start))-1
     print(sums[cycleWhichMatches1b])
 
+from time import monotonic
+start = monotonic()
 betterPart2()
+print(f"Time elapsed: {monotonic() - start}")
