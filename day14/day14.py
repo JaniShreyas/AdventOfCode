@@ -203,7 +203,7 @@ def betterPart2():
     sums = []
     listOfArrays = [np.array(arr)]
     start, end = 0,0
-    for ind in range(500):
+    for ind in range(10000000):
         # North tilt
         for j in range(len(arr[0])):
             col = arr[:, j]
