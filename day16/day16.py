@@ -1,4 +1,5 @@
 from typing import List
+from time import monotonic_ns
 
 with open("data.txt") as f:
     data = [line.strip() for line in f.readlines()]
@@ -14,6 +15,9 @@ def getNextCoord(cur, dir):
 
 def isValidCoord(coord):
     return (coord[0] not in (-1, len(data)) and coord[1] not in (-1, len(data[0])))
+
+# def matchElement(prev, cur, dir):
+
 
 def part1():
     cur = (0, 0)
@@ -42,15 +46,11 @@ def part1():
                     # Bottom
                     if cur[0] != len(data) - 1:
                         dir = (1, 0)
-                        # nextCoord = getNextCoord(cur, dir)
 
                     # Top
                     if cur[0] != 0:
                         altDir = (-1, 0)
                         altNextCoord = getNextCoord(cur, altDir)
-
-                # else:
-                    # nextCoord = getNextCoord(cur, dir)
 
             case "-":
                 # Check if on same j
@@ -58,15 +58,11 @@ def part1():
                     # Right
                     if cur[1] != len(data[0]) - 1:
                         dir = (0, 1)
-                        # nextCoord = getNextCoord(cur, dir)
 
                     # Left
                     if cur[1] != 0:
                         altDir = (0, -1)
                         altNextCoord = getNextCoord(cur, altDir)
-
-                # else:
-                #     nextCoord = getNextCoord(cur, dir)
 
             case "/":
                 # Check if on same i
@@ -74,18 +70,14 @@ def part1():
                     # check if from left
                     if prev[1] < cur[1]:
                         dir = (-1, 0)
-                        # nextCoord = getNextCoord(cur, dir)
                     else:
                         dir = (1, 0)
-                        # nextCoord = getNextCoord(cur, dir)
                 else:
                     # check if from up
                     if prev[0] < cur[0]:
                         dir = (0, -1)
-                        # nextCoord = getNextCoord(cur, dir)
                     else:
                         dir = (0, 1)
-                        # nextCoord = getNextCoord(cur, dir)
             
             case '\\':
                 # Check if on same i
@@ -93,18 +85,14 @@ def part1():
                     # check if from left
                     if prev[1] < cur[1]:
                         dir = (1,0)
-                        # nextCoord = getNextCoord(cur, dir)
                     else:
                         dir = (-1,0)
-                        # nextCoord = getNextCoord(cur, dir)
                 else:
                     # check if from up
                     if prev[0] < cur[0]:
                         dir = (0,1)
-                        # nextCoord = getNextCoord(cur, dir)
                     else:
                         dir = (0,-1)
-                        # nextCoord = getNextCoord(cur, dir)
             
         nextCoord = getNextCoord(cur, dir)
 
@@ -142,4 +130,9 @@ def part1():
         n %= len(paths)
     print(len(energised))
 
+start = monotonic_ns()
 part1()
+print("time", monotonic_ns() - start)
+
+def part2():
+    pass
