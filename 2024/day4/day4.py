@@ -1,3 +1,7 @@
+from time import monotonic_ns
+
+start = monotonic_ns()
+
 with open("data.txt") as f:
     data = [line.strip() for line in f.readlines()]
 
@@ -68,10 +72,6 @@ def part1():
         return word
 
     def find_all_dir(i,j):
-        letter = data[i][j]
-        if letter != 'X':
-            return None
-
         zero = find_right(i,j)
         one = find_bottom_right(i,j)
         two = find_bottom(i,j)
@@ -87,16 +87,16 @@ def part1():
 
     for i in range(len(data)):
         for j in range(len(data[0])):
-            hits = find_all_dir(i,j)
-            if hits is None:
+            if data[i][j] != 'X':
                 continue
+            hits = find_all_dir(i,j)
             for hit in hits:
                 if hit is not None and hit == xmas:
                     xmas_count += 1
 
     print(xmas_count)
 
-# part1()
+part1()
 
 def part2():
     # In this one, once we have found an A, we need to check for 2 diagonal strings
@@ -133,3 +133,5 @@ def part2():
     print(count)
 
 part2()
+
+print(monotonic_ns() - start)
