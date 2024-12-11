@@ -83,5 +83,5 @@ for i in range(len(mapDictList)):
 
     seedRanges = list(mapped)
 
-print(min(mapped)[0])
-print(monotonic_ns() - start)
+print("Answer:", min(mapped)[0])
+print("Time taken in ns", monotonic_ns() - start)
