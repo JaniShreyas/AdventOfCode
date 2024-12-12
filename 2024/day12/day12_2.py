@@ -11,6 +11,7 @@ def is_valid_index(ind):
 
 region, sides = {}, {}
 in_region = [[False for _ in range(cols)] for _ in range(rows)]
+all_flags_memory = {}
 
 def find_region_with_sides(current, parent, dir):
     
@@ -26,6 +27,14 @@ def find_region_with_sides(current, parent, dir):
         step = steps[i]
         new_point = add_indices(current, step)
         if new_point in region[parent]:
+            if i == 3:
+                # Do an additional check on that block's left state
+                intermediate_step = steps[2]
+                intermediate_point = add_indices(new_point, intermediate_step)
+                if not(is_valid_index and data[intermediate_point[0]][intermediate_point[1]] == data[new_point[0]][new_point[1]]):
+                    # We have found another left boundary
+                    if dir != 1:
+                        flags[2] = False
             continue
         if is_valid_index(new_point) and data[new_point[0]][new_point[1]] == data[current[0]][current[1]]:
             child_flags_list.append(find_region_with_sides(new_point, parent, i))
@@ -42,7 +51,6 @@ def find_region_with_sides(current, parent, dir):
             if flag:
                 sides[parent] += 1
             
-
     return flags
 
 
@@ -66,7 +74,6 @@ def part2():
             sides[(i,j)] = 0
             find_region_with_sides((i,j), (i,j), -1)
 
-    print(region)
     print(sides)
 
 part2()
